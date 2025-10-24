@@ -20,7 +20,7 @@ try {
     $stmt_firms_all = $db->query("SELECT id, name FROM firms ORDER BY name");
     $firms_list = $stmt_firms_all->fetchAll(PDO::FETCH_ASSOC);
 
-    //crud kismisi
+    //crud kismi
     if ($current_action === 'firms') {
         // firma ekleme ve duzenleme 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_firm'])) {
@@ -32,7 +32,7 @@ try {
                 $error = "Firma adı boş bırakılamaz.";
             } else {
                 if (empty($firm_id)) {
-                    // ekelmee
+                    // ekleme
                     $sql = "INSERT INTO firms (name, logo_url) VALUES (?, ?)";
                     $stmt = $db->prepare($sql);
                     $stmt->execute([$firm_name, $logo_url]);
@@ -170,13 +170,13 @@ try {
     $error = "Veritabanı hatası: " . $e->getMessage();
 }
 
-// firma duzenlemece
+// firma duzenleme
 $firm_form_title = $firm_to_edit ? "Firma Düzenle" : "Yeni Firma Ekle";
 $current_firm_id = $firm_to_edit['id'] ?? '';
 $current_firm_name = $firm_to_edit['name'] ?? '';
 $current_logo_url = $firm_to_edit['logo_url'] ?? '';
 
-//kupon duzenlemece 
+//kupon duzenleme 
 $coupon_form_title = $coupon_to_edit ? "Kupon Düzenle" : "Yeni Kupon Oluştur";
 $current_coupon_id = $coupon_to_edit['id'] ?? '';
 $current_coupon_code = $coupon_to_edit['code'] ?? '';
@@ -488,3 +488,4 @@ $current_expiry_date = $coupon_to_edit['expiry_date'] ?? date('Y-m-d', strtotime
     </div>
 </body>
 </html>
+

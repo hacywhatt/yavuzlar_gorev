@@ -1,20 +1,24 @@
 version: '3.8'
 
 services:
-
-  app:
-  
-    build: .
-  
-    container_name: bilet_satin_alma
-
+  # Web Servisi (PHP + Apache)
+  web:
+    # Dockerfile'ı kullanarak bu servisin görüntüsünü oluştur
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      
+    # Gelen 80 portunu (Container'ın çalıştığı port) host makinenizin 8080 portuna yönlendir
     ports:
       - "8080:80"
-
+      
+    # Proje dosyalarınızdaki değişikliklerin anında container'a yansıması için volume kullan
+    # '.' (mevcut dizin) /var/www/html/ (container'daki web kökü) dizinine bağlanır
     volumes:
-
-      - .:/var/www/html
-   
-      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
-   
+      - .:/var/www/html/
+      
+    # Container'a kolay tanınabilir bir isim ver
+    container_name: bilet_satin_alma
+    
+    # Herhangi bir çökme durumunda container'ı otomatik olarak yeniden başlat
     restart: unless-stopped

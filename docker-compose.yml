@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+
+  app:
+  
+    build: .
+  
+    container_name: bilet_satin_alma
+
+    ports:
+      - "8080:80"
+
+    volumes:
+
+      - .:/var/www/html
+   
+      - ./apache/000-default.conf:/etc/apache2/sites-available/000-default.conf
+   
+    restart: unless-stopped

@@ -1,36 +1,32 @@
-
+# 1. Temel PHP Görüntüsü (Apache web sunucusunu içerir)
+# PHP 8.x versiyonu önerilir, burada php:8.2-apache kullanılmıştır.
 FROM php:8.2-apache
 
-WORKDIR /var/www/html
-
-
-RUN apt-get update && apt-get install -y \
+# 2. Gerekli sistem paketlerini ve PHP uzantılarını yükle
+# SQLite desteği için libsqlite3-dev ve PHP uzantısı gereklidir.
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
     libsqlite3-dev \
     libzip-dev \
-    libpng-dev \
-    libjpeg-dev \
-    libfreetype6-dev \
-    libicu-dev \
-    zip \
-    unzip \
-  # Kurulumdan sonra APT önbelleğini temizleyerek imaj boyutunu küçültüyoruz
-  && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
 
+# 3. PHP'de PDO ve SQLite uzantılarını aktif et
+RUN docker-php-ext-install pdo_sqlite
 
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-  && docker-php-ext-install -j$(nproc) gd pdo pdo_sqlite zip intl
-
+# 4. Apache yeniden yazma (mod_rewrite) modülünü aktif et (Temiz URL'ler için gerekli olabilir)
 RUN a2enmod rewrite
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# 5. PHP'nin zaman dilimini ayarla (Tarih/Saat fonksiyonlarının doğru çalışması için kritik)
+# Bu ayar, PHP içindeki date_default_timezone_set('Europe/Istanbul'); ile birlikte çalışmalıdır.
+RUN echo "date.timezone = Europe/Istanbul" > /usr/local/etc/php/conf.d/timezone.ini
 
-COPY composer.json composer.lock ./
-
-RUN composer install --no-interaction --no-dev --optimize-autoloader
-
+# 6. Proje dosyalarını Docker container'ının web kök dizinine kopyala
+# Proje kök dizinindeki her şeyi (PHP dosyaları, database.sqlite vb.) kopyalar.
 COPY . /var/www/html/
 
-RUN chown -R www-data:www-data /var/www/html/var
+# 7. Dosya izinlerini ayarla
+# Web sunucusu kullanıcısına (www-data) dosya sahipliği ver (Olası izin hatalarını önler)
+RUN chown -R www-data:www-data /var/www/html
 
-
-CMD ["apache2-foreground"]
+# Container'daki Apache sunucusu varsayılan olarak 80 portunda çalışacaktır.
+EXPOSE 80

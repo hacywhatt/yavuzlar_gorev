@@ -49,11 +49,11 @@ docker compose down
 
 ## 🔑 Test Için Kullanıcı Bilgileri
 
-| Rol | E-posta | Şifre | Açıklama |
+| Rol | Kullanıcı Adı | Şifre | Açıklama |
 |-----|----------|--------|-----------|
-|  Admin | admin@test.com | 123456 | Firma ve kupon yönetimi |
-|  Firma Admin | firma@example.com | firm123 | Kendi firmasına ait sefer CRUD + satış/iptal |
-|  Kullanıcı | user@example.com | user123 | Sefer arama, bilet satın alma, iptal, PDF indir |
+|  Admin | admin| 123456 | Firma ve kupon yönetimi |
+|  Firma Admini | sibervatan_admin | 123456 | Kendi firmasına ait sefer CRUD + satış/iptal |
+|  Kullanıcı | test | test123 | Sefer arama, bilet satın alma, iptal, PDF indir |
 
 ## 💼 Rollere Göre Yetkiler
 

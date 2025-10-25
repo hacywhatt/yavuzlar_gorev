@@ -2,7 +2,7 @@
 session_start();
 
 //  fpdf kutuphanesi kullanildi 
-require('fpdf186/fpdf.php'); 
+require('fpdf.php'); 
 
 
 if (!isset($_SESSION['user_id'])) {
@@ -120,4 +120,5 @@ try {
 } catch (Exception $e) {
     die("PDF oluşturma hatası: " . $e->getMessage());
 }
+
 ?>

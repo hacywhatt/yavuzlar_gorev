@@ -2,7 +2,7 @@
 session_start();
 
 //  fpdf kutuphanesi kullanildi 
-require('fpdf.php'); 
+require('fpdf186/fpdf.php'); 
 
 
 if (!isset($_SESSION['user_id'])) {
@@ -122,3 +122,4 @@ try {
 }
 
 ?>
+
